@@ -272,4 +272,137 @@ The code below will drop the route column from the dataframe.
 
 df = df.drop(columns = 'route')
 ```
-![Sample of the dataframe](Booking_Dataframe.png)
+Here is a list of attributes our dataframe currently have. Attributes that are created during feature engineering are bolded.
+* num_passengers - Number of passengers travelling.
+* **sales_channel_Internet - Dummy variable representing customers who used the internet to book a flight.**
+* **sales_channel_Mobile - Dummy variable representing customers who used a mobile phone to book a flight.**
+* **trip_type_CircleTrip - Dummy variable representing customers who booked a circle trip.**
+* **trip_type_OneWay - Dummy variable representing customers who booked a one way trip.**
+* **trip_type_RoundTrip - Dummy variable representing customers who booked a round trip.**
+* purchase_lead - Number of days between travel date and booking date.
+* length_of_stay - Number of days spent at destination.
+* flight_hour- Hour of flight departure.
+* flight_day - Day of week of flight departure.
+* route - Origin to destination flight route.
+* **booking_origin_North America - Dummy variable representing a booking origin in the North America region.**
+* **booking_origin_South America - Dummy variable representing a booking origin in the South America region.**
+* **booking_origin_Europe - Dummy variable representing a booking origin in the Europe region.**
+* **booking_origin_Nordic - Dummy variable representing a booking origin in the Nordic region.**
+* **booking_origin_East Asia - Dummy variable representing a booking origin in the East Asia region.**
+* **booking_origin_South Asia - Dummy variable representing a booking origin in the South Asia region.**
+* **booking_origin_South East Asia - Dummy variable representing a booking origin in the South East Asia region.**
+* **booking_origin_Middle East - Dummy variable representing a booking origin in the Middle East region.**
+* **booking_origin_Africa - Dummy variable representing a booking origin in the Africa region.**
+* **booking_origin_Oceania - Dummy variable representing a booking origin in the Oceania region.**
+* **booking_origin_Caribbean - Dummy variable representing a booking origin in the Caribbean region.**
+* **booking_origin_Unknown - Dummy variable representing a booking origin that was not given.**
+* wants_extra_baggage - If the customer wanted extra baggage in the booking.
+* wants_preferred_seat - If the customer wanted a preferred seat in the booking.
+* wants_in_flight_meals - If the customer wanted in-flight meals in the booking.
+* flight_duration - Total duration of flight in hours.
+* booking_complete - Flag indicating if the customer completed the booking.
+
+### 3. Data Modeling
+Data modeling is the process of converting raw data into insight using algorithms and other systems of equations. **The machine learning model that we will use to predict whether a customer will book a flight is the Random Forest model.** The Random Forest model is an algorithm that combines the output of multiple decision trees to reach a single decision.
+
+#### 3a. Model Sampling
+Random Forest model is a supervised learning algorithm. **Supervised learning algorithms requires training data to create the model. Once the model is created using the training data, the model is compared with the test data to determine if the model is overfitting, underfitting, or has good fit.**
+
+The first thing we need to do is to split our dataset into training and test data. Since both training and test data come from the same dataset, they should follow the same pattern even if the data in both sets are different. **By creating a model using the training data and testing the model using the test data, we can determine how well the model can predict the pattern within the data.**
+
+The code below will separate our dependent variabe (booking_complete) from our independent variable (the remaining attributes). The dependent variable will be 
+assigned to y and the independent variables will be assigned to X.
+```
+# Make a copy of our data.
+# It's a good idea to keep the original data intact in case you need the data in the original dataframe.
+# Use the .copy() command to create a copy of the data.
+
+df = df.copy()
+
+# Separate target variable from independent variables.
+# The target variable is the variable you are trying to predict (booking_complete).
+# The independant variables are the varibales you will use to predict the target variable (all variables except booking_complete).
+
+y = df['booking_complete']
+X = df.drop(columns = ['booking_complete'])
+```
+We will then split both y and X into training and test data. The test data are randomly selected points from y and X. 25% of the data from y and X will be used for test data. Both y and X contain 50000 data points, so 37500 data points will be training data and 12500 data points will be test data.
+```
+# Create training and test data.
+# The test size the is % of the original data that will be used for test data.
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state = 42)
+```
+
+#### 3b. Model Training
+To train the model, we need to create a Random Forest model using the training data. **The model will use the training data, create decision trees, and will predict whether a customer will book a flight or not by finding and learning patterns within the training data.**
+
+The code below will take the training data from y and X, and create a Random Forest model. The Random Forest model consist of many decision trees made up of randomly selected data points and attributes (from the training data). Our Random Forest model will create 1000 decision trees.
+```
+# Use the RandomForestClassifier() command to create a random forest model.
+
+model = RandomForestClassifier(n_estimators = 1000, 
+                               random_state = 42)
+
+# Use the .fit() command to fit the data into the model.
+# The data that we will fit into the model will be the training data, both x_train and y_train.
+
+fitted = model.fit(X_train, y_train)
+```
+
+#### 3c. Model Testing
+Now that we trained the Random Forest model, we will use the test data from y and X to test the model. **We test the model by using the test data as inputs for the Random Forest model. We will then use a confusion matrix to determine the accuracy, precision, and recall for the model.**
+
+The code below will take our trained Random Forest model and use the test data from X as its input. Then we will compare what the model's prediction was with the test data from y to determine the accuracy, precision, and recall for the model.
+```
+# Use the .predict() command to labels of the data values on the basis of the trained model.
+# Use the test data (X_test) as input.
+
+predictions = fitted.predict(X_test)
+
+# Use the metrics.confusion() command to compute confusion matrix to evaluate the accuracy of a classification.
+# Use the y_test variable as the true values.
+# Use predictions as the predicted values.
+# Use the .ravel() command to merge multiple arrays (tn, fp, fn, tp) to a single array.
+
+tn, fp, fn, tp = metrics.confusion_matrix(y_test, predictions).ravel()
+```
+The code below will print out the accuracy results of the test.
+```
+## Use the print() command to print out the results of the confusion matrix.
+
+print(f"True positives: {tp}")
+print(f"False positives: {fp}")
+print(f"True negatives: {tn}")
+print(f"False negatives: {fn}\n")
+
+print(f"Accuracy: {metrics.accuracy_score(y_test, predictions)}")
+print(f"Precision: {metrics.precision_score(y_test, predictions)}")
+print(f"Recall (Sensitivity): {metrics.recall_score(y_test, predictions)}")
+print(f"F1: {metrics.f1_score(y_test, predictions)}")
+```
+![Confusion Matrix](Confusion_Matrix.png)
+
+**True Positives (TP) are events where the model predicted a positive value (a customer will book a flight) and the data supports the model's prediction. False Positives (FP) are events where the model predicts a positive value but the data does not support the prediction.**
+
+**Similarly, True Negatives (TN) are events where the model predicts a negative value (a cusotmer will not book a flight) and the data supports the prediction. False Negatives (FN) are events where the model predicts a negative value but the data does noot support the prediction.**
+
+**Accuracy is the overall accuracy of the model.** It is calculated as TP + TN/TP + TN + FP + FN where TP + TN represents all the predictions that are correct and TP + TN + FP + FN represents all of the predictions.
+
+**Precision is the ability of the model to accurately predict positive values.** It is calculated as TP/TP + FP where TP represents  the values that the model correctly predicts will have a positive value and TP + FP represents all the values that the model predicts will have a positive value, regardless of whether it is correct or incorrect.
+
+**Recall is the ability of the model to accurately detect positive values.** It is calculated as TP/TP + FN where TP represents  the values that the model correctly predicts will have a positive value and TP + FN represents the actual number of positive values.
+
+**F1 represents how well the model can detect and accurately predict positive values.** It is calculated as 2 * (Precision * Recall)/(Precision + Recall).
+
+**Our model has a high accuracy score of 85.07%.** If the model predicts that a value will be positive (yes, a customer will book a flight) or negative (no, a customer will not book a flight), there is a 85.07% chance that the prediction is accurate.
+
+**Our model also has a low precision score of 48.3%. While accuracy represents how well the model is able to predict both positive and negative values, precision represents how well the model is able to predict positive values.** The model has predicted 412 positive values and 199 of the predicted values are true. This indicates that if the model predicts that a value is positive, there is a 48.3% chance that prediction is accurate.
+
+**However, our model has a very low recall score of 10.75%. Recall represents how well the model can detect positive values.** There are a total of 1852 positive values and the model was able to accurately predict 199 of them. This means that our model can only detect 10.75% of positive values.
+
+**Our model also has a low F1 score of 17.58%. The F1 score represents how accurate the model is at predicting and detecting positive values.** A low F1 score indicates the model has issues with accurately predicting postive values either because its predictions tend to be wrong or because it frequently misidentifies positive values.
+
+#### 3d. Model Visualiziation
+Now that we have created out Random Forest model, let's create visualizations so that we could better understand the model.
+
