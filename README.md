@@ -406,3 +406,50 @@ print(f"F1: {metrics.f1_score(y_test, predictions)}")
 #### 3d. Model Visualiziation
 Now that we have created out Random Forest model, let's create visualizations so that we could better understand the model.
 
+**A Random Forest model works by creating mutiple decision trees. Each decision tree is created using random data points and random attributes from the training data**. A decison tree works by taking all the data points in the training data, called root node, and splitting the data points into 2 groups, called branch nodes, based on whether the data point meets a condition or not, such as num_passengers >= 2. Each branch node is further split into 2 branch nodes based on whether the data points in the node meets a condition or not. This continues until all data points in a node meets the condition and can no longer be split. This is called a leaf node.
+
+![Decision_Tree](Decision_Tree.png)
+
+The above picture is an example of a decision tree.
+
+When the test data is used as input in a Random Forest model, each data point in the test data will start at the root node and will follow the paths made by the decision tree until it reaches a lead node. Depending on which leaf node the data point stops at, the decision tree will determine if that data point will be classified as the customer will book a flight or will not book a flight. **Because our Random Forest model is made up of 1000 decision trees, each data point goes through this process 1000 times and will be classified 1000 times. The Random Forest model will classify the data point based on popular vote from the decision trees.** If 390 decision trees classsified a data point as "flight booked" and 610 decision trees classified the data point as "flight not booked" the Random Forest model will classify the data point as "flight not booked".
+
+The code below is used to create a visualization of the first decision tree created by th Random Forest model.
+```
+# Use the plot_tree() command to plot a decision tree.
+# model.estimators[] is the tree you want to plot.
+# feature_names is the name of the variables used to predict the independant variable.
+# class_names is the name of the target classes.
+# filled colors the nodes.
+
+plt.figure(figsize = (80,40))
+plot_tree(model.estimators_[0], feature_names = X.columns, class_names = ['Booked', 'Not_Booked'],filled = True);
+plt.show()
+```
+![A Decision Tree for the Random Forest Model](Random_Forest_Tree.png)
+
+The picture above depicts is the first decision tree made by the Random Forest model. The decision tree contain many branches and leaves, which demonstrates the complex nature of a single decision tree. Imagine repeating this process 999 more times with different, but equally complex decision trees.
+
+#### 3f. Feature Importance
+The data that we fed to our Random Forest model contains many features (columns). **Some features have a bigger impact on how the Random Forest model make predictions.** We will determine which columns will have the greatest impact on the Random Forest model. A feature with an importance score of 1 indicates that only that feature is used to predict outcomes. A feature with an importance score of 0 indicates that the feature has no effect on the Random Forest model.
+
+The code below will determine the relative importance of each feature in terms of predicive power. The code will then create a bar chart to visualize the importance of each feature.
+```
+# Use the .feature_importances_ command to find the importance values of each feature.
+
+fitted.feature_importances_
+
+# Use the fig, ax = plt.subplots() command to create a set of subplots within one cell.
+fig, ax = plt.subplots(1, 1, figsize=(15, 15))
+
+# Use the sns.barplot() command to create a bar plot.
+
+sns.barplot(data = feature_importance, 
+            x = 'Importance', 
+            y = 'Feature')
+
+ax.bar_label(ax.containers[0])
+
+plt.show()
+```
+![Feature_Importance_Graph](Feature_Importance.png)
