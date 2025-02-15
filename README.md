@@ -453,3 +453,22 @@ ax.bar_label(ax.containers[0])
 plt.show()
 ```
 ![Feature_Importance_Graph](Feature_Importance.png)
+
+**The greatest driver for customers who will book a flight is the number of days between travel date and booking date. This is followed by the hour of flight departure, number of days spent at their destination, the flight duration, and the day the flight orccurs.**
+
+**The most important variables relate to the flight itself and time.** Other variables such as booking origin, sales channels, number of passengers, and customer preferences (wants in flight meals, wants preferred seating) are not as important.
+
+Customers who come from the South East Asia and Oceania regions tend to complete their booking more often than customers who come from other regions.
+
+## Conclusions and Recommendations
+Based on the results of our Random Forest model, time is a very imporant factor when determining whether a customer will book a flight or not.  This includes variables such as the amount of time between a ticket purchase and departure, what time that flight departs, the length of stay at the destination, the amount of time the flight takes, and what day the flight departs. Other variables such as booking origin and sales channel have little influence over a customer's choice to book a flight.
+
+It is possible that most people book a flight during holidays and they would purchase a ticket months in advance to take advantage of the cheaper ticket prices. Our Random Forest model has a low precision score (48.3%) and  a low recall score (10.75). The low scores effect the feature importance rating for each variable.
+
+Recommendations:
+* Advertise for holiday vacations early to convince customers to purchase a ticket as early as possible.
+* Determine what time and day that customers most often perfer their flights and plan more flights around that time and day.
+* Offer a saving for customers who will spend lionger than a week in their destination.
+* To improve the performance of the Random Forest model, add customer centric features, such as whether the customer will recomment the flight.
+
+## Power Point Slide
