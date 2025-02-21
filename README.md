@@ -479,6 +479,7 @@ The final part of this project is to create a single Power Point slide that summ
 The picture above depicts the Power Point slide that summarizes our findings.
 
 Below is an example script on how the slide could be presented:
+
 A Random Forest Model was created to predict the outcome of whether a potential passenger would book a flight with British Airline or not.
 The data used consists of 50000 airline bookings and whether the booking was completed.
 The data includes information such as the number of passengers being booked, the type of trip, length of stay, flight duration, whether the passenger wants extra baggage or preferred seats, or inflight meals.
