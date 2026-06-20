@@ -6,7 +6,7 @@ This is Part 2 of a project from the [British Airways Data Science micro-interns
 In this task, I take on the role of a junior data scientist employed at British Airways. British Airways has tasked me with collecting customer feedback and reviewing data from a third party source. I am also tasked with creating a predictive model to help determine which customers will book a flight for the upcoming holidays. **In this part of the project, I will analyze and conduct feature analysis on flight booking data, train and test a Random Forest model to predict which customers will book a flight, analyze the model performance with a confusion matrix, conduct feature importance analysis, and present my insights on a PowerPoint slide.**
 
 ## Problem Statement
-British Airways is taking a proactive approach towards attracting customers. Rather than hoping that a customer purchases flights for the holidays as they come into the airport, British Airways is using data from past bookings and predictive models to determine how they can sell their flights to prospective customers. **Using their booking data, we will create and modify features so that they can be used in a Random Forest model. We will then train and tewst the model and analyze it's performance in order to understand how predictive the data really was and whether we can feasibly use it to predict the target outcome (customers buying holidays). The results will be summarized in a Power Point Slide which will be used in a board meeting.**
+British Airways is taking a proactive approach towards attracting customers. Rather than hoping that a customer purchases flights for the holidays as they come into the airport, British Airways is using data from past bookings and predictive models to determine how they can sell their flights to prospective customers. **Using their booking data, we will create and modify features so that they can be used in a Random Forest model. We will then train and test the model and analyze it's performance in order to understand how predictive the data really was and whether we can feasibly use it to predict the target outcome (customers buying holidays). The results will be summarized in a Power Point Slide which will be used in a board meeting.**
 
 ## Skills Demonstrated
 * Jupyter Notebook
@@ -468,7 +468,7 @@ It is possible that most people book a flight during holidays and they would pur
 Recommendations:
 * Advertise for holiday vacations early to convince customers to purchase a ticket as early as possible.
 * Determine what time and day that customers most often perfer their flights and plan more flights around that time and day.
-* Offer a saving for customers who will spend lionger than a week in their destination.
+* Offer a saving for customers who will spend longer than a week in their destination.
 * To improve the performance of the Random Forest model, add customer centric features, such as whether the customer will recommend the flight.
 
 ## Power Point Slide
