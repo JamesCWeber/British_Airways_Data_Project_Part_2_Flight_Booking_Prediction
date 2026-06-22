@@ -461,15 +461,14 @@ plt.show()
 Customers who come from the South East Asia and Oceania regions tend to complete their booking more often than customers who come from other regions.
 
 ## Conclusions and Recommendations
-Based on the results of our Random Forest model, time is a very imporant factor when determining whether a customer will book a flight or not.  This includes variables such as the amount of time between a ticket purchase and departure, what time that flight departs, the length of stay at the destination, the amount of time the flight takes, and what day the flight departs. Other variables such as booking origin and sales channel have little influence over a customer's choice to book a flight.
+Based on the results of our Random Forest model, time is a very imporant factor when determining whether a customer will book a flight or not.  This includes variables such as the amount of time between a ticket purchase and departure (purchase_lead 25%), what time that flight departs (flight_hour 17%), the length of stay at the destination (length_of_stay 16%), the amount of time the flight takes (flight_duration 11%), and what day the flight departs (flight_day 10%). Other variables such as booking origin and sales channel have little influence over a customer's choice to book a flight.
 
 It is possible that most people book a flight during holidays and they would purchase a ticket months in advance to take advantage of the cheaper ticket prices. Our Random Forest model has a low precision score (48.3%) and  a low recall score (10.75). The low scores effect the feature importance rating for each variable.
 
 Recommendations:
-* Advertise for holiday vacations early to convince customers to purchase a ticket as early as possible.
-* Determine what time and day that customers most often perfer their flights and plan more flights around that time and day.
-* Offer a saving for customers who will spend longer than a week in their destination.
-* To improve the performance of the Random Forest model, add customer centric features, such as whether the customer will recommend the flight.
+* Optimize the timing of marketing campaigns by targeting customers who are browsing flights 60 to 90+ days in advance with tailored holiday package offers. For customers with high purchase leads, use email campaigns to bundle hotels and car rentals early, emphasizing "peace of mind" and early-booking discounts.
+* Combined, length_of_stay and flight_duration account for over 26% make up 26% of the model's predictive power. Target customers booking long flight durations and prompt them with resort and leisure packages during the booking flow. For customers who plan on staying in their destination for 7 to 14 days, trigger an automated marketing workflow showcasing local experiences and holiday itineraries, as this duration strongly indicates a vacation.
+* Together, flight_hour and flight_day make up 28% to the model's decisions. Determine which departure hours and days correlate highest with successful holiday conversions. Discount the flight price slightly on "high-conversion days" if the customer locks in a holiday package. Change the booking website layout based on the time the user is searching. If they are looking at weekend departures, prioritize "Holiday/Vacation" tabs over "Business Travel."
 
 ## Power Point Slide
 The final part of this project is to create a single Power Point slide that summarizes our findings. This slide will be used as a part of a board meeting held by the data science team leader. A copy of the Power Point slide is included in this repository under the file name: James Weber Random Forest Slide.pptx
